@@ -2,18 +2,14 @@
 
 case "$1" in 
     start)
-        echo "Starting ldd-modules"
-        depmod -a
-        cd /lib/modules/6.1.44/extra/ 2>/dev/null || cd /lib/modules/*/extra
-        /usr/bin/module_load faulty
-        /usr/bin/scull_load
-        modprobe hello
+        echo "Starting aesd-modules"
+        /usr/bin/aesdchar_load
+        /usr/bin/aesdsocket -d
         ;;
     stop)
         echo "Stopping ldd-modules"
-        /usr/bin/module_unload faulty
-        /usr/bin/scull_unload
-        rmmod hello
+        killall -9 /usr/bin/aesdsocket
+        /usr/bin/aesdchar_unload
         ;;
     *)
         echo "Usage: $0 {start|stop}"
